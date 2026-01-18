@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Users Table -->
+    <changeSet id="3.0" author="me.oldboy">
+        <createTable tableName="users" schemaName="my_market">
+            <column name="user_id" type="BIGINT" defaultValueComputed="nextval('my_market.users_user_id_seq')">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(128)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="user_pass" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(32)" defaultValue="ADMIN" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="users" schemaName="my_market"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
