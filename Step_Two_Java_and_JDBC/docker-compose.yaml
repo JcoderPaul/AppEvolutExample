@@ -1,0 +1,17 @@
+name: market_step_two
+services:
+  postgresql:
+    image: postgres:14 # Нам нужен конкретный образ БД
+    container_name: market_db # Имя контейнера (необязательно, будет дано автоматом из метки postgresql)
+    restart: unless-stopped
+    environment: # Задаем параметры окружения
+      POSTGRES_USER: ${POSTGRES_USER} # Задаем логин к БД (берется из файла .env в корне проекта)
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Задаем пароль к БД (берется из файла .env в корне проекта)
+      POSTGRES_DB: market_db
+    ports:
+      - "5435:5432"
+    volumes:
+      - market_db_data:/var/lib/postgresql/data
+
+volumes:
+  market_db_data:
