@@ -1,0 +1,53 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Insert products -->
+    <changeSet id="10.0" author="me.oldboy">
+        <comment>Initial data insert for products table</comment>
+        <insert tableName="products" schemaName="my_market">
+            <column name="product_name" value="Парка"/>
+            <column name="price" valueNumeric="2200.0"/>
+            <column name="category_id" valueNumeric="2"/>
+            <column name="brand_id" valueNumeric="4"/>
+            <column name="description" value="Очень теплая"/>
+            <column name="stock_quantity" valueNumeric="3"/>
+            <column name="creation_at" valueDate="2024-11-17T16:28:29"/>
+            <column name="modified_at" valueDate="2024-12-17T16:28:29"/>
+        </insert>
+
+        <insert tableName="products" schemaName="my_market">
+            <column name="product_name" value="Уги"/>
+            <column name="price" valueNumeric="800.0"/>
+            <column name="category_id" valueNumeric="1"/>
+            <column name="brand_id" valueNumeric="1"/>
+            <column name="description" value="Уги-вуги"/>
+            <column name="stock_quantity" valueNumeric="4"/>
+            <column name="creation_at" valueDate="2024-08-17T16:28:29"/>
+            <column name="modified_at" valueDate="2024-08-19T16:28:29"/>
+        </insert>
+
+        <insert tableName="products" schemaName="my_market">
+            <column name="product_name" value="Самахват"/>
+            <column name="price" valueNumeric="400.0"/>
+            <column name="category_id" valueNumeric="3"/>
+            <column name="brand_id" valueNumeric="3"/>
+            <column name="description" value="Выше, быстрее, сильнее"/>
+            <column name="stock_quantity" valueNumeric="2"/>
+            <column name="creation_at" valueDate="2024-10-17T16:28:29"/>
+            <column name="modified_at" valueDate="2024-10-19T16:28:29"/>
+        </insert>
+
+        <alterSequence sequenceName="products_id_seq"
+                       schemaName="my_market"
+                       incrementBy="1"
+                       minValue="1"
+                       cycle="false"/>
+
+        <rollback>
+            <delete tableName="products" schemaName="my_market"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
