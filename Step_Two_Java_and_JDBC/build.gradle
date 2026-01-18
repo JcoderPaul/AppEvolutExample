@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id "io.freefair.lombok" version "8.3"
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group 'me.oldboy'
+version '1.5'
+
+apply from: 'version.gradle'
+
+application {
+    mainClass = 'me.oldboy.market.MainApp'
+    applicationDefaultJvmArgs = ['-Dfile.encoding=UTF-8', '-Dsun.stdout.encoding=UTF-8']
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    /* БД и Миграционный фреймворк */
+    implementation "org.postgresql:postgresql:${versions.postgres}"
+    implementation "org.liquibase:liquibase-core:${versions.liquibase}"
+
+    /* Тест-контейнер для интеграционных тестов */
+    testImplementation "org.testcontainers:postgresql:${versions.testcontainers}"
+    testImplementation "org.testcontainers:junit-jupiter:${versions.testcontainers}"
+
+    /* Тестовый фреймворк Junit */
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${versions.jupiter}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${versions.jupiter}"
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    /* Mockito */
+    testImplementation "org.mockito:mockito-core:${versions.mockito}"
+    testRuntimeOnly "org.mockito:mockito-core:${versions.mockito}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${versions.mockito}"
+
+    /* AssertJ */
+    testImplementation "org.assertj:assertj-core:${versions.assertj}"
+    testRuntimeOnly "org.assertj:assertj-core:${versions.assertj}"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+wrapper {
+    gradleVersion '8.2.1'
+}
+
+shadowJar {
+    archiveFileName = 'market.jar'
+
+    manifest {
+        attributes 'Main-Class': 'me.oldboy.market.MainApp'
+    }
+}
