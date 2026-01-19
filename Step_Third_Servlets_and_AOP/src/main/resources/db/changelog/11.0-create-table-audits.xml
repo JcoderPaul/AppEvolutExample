@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Audits Table -->
+    <changeSet id="11.0" author="me.oldboy">
+        <createTable tableName="audits" schemaName="my_market">
+            <column name="id" type="BIGINT" defaultValueComputed="nextval('my_market.audits_id_seq')">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(128)">
+                <constraints nullable="false"
+                             foreignKeyName="fk_audits_email"
+                             references="my_market.users(email)"/>
+            </column>
+            <column name="action" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_success" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auditable_record" type="VARCHAR(256)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="audits" schemaName="my_market"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
