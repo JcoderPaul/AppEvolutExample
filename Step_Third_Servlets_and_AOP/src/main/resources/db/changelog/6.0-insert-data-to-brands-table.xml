@@ -1,0 +1,33 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Insert brands -->
+    <changeSet id="6.0" author="me.oldboy">
+        <comment>Initial data insert for brands table</comment>
+        <insert tableName="brands" schemaName="my_market">
+            <column name="brand_name" value="Puma"/>
+        </insert>
+        <insert tableName="brands" schemaName="my_market">
+            <column name="brand_name" value="PolarBear"/>
+        </insert>
+        <insert tableName="brands" schemaName="my_market">
+            <column name="brand_name" value="Marten"/>
+        </insert>
+        <insert tableName="brands" schemaName="my_market">
+            <column name="brand_name" value="Bask"/>
+        </insert>
+
+        <alterSequence sequenceName="brands_brand_id_seq"
+                       schemaName="my_market"
+                       incrementBy="1"
+                       minValue="1"
+                       cycle="false"/>
+
+        <rollback>
+            <delete tableName="brands" schemaName="my_market"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
