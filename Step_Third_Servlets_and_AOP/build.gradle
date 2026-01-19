@@ -1,0 +1,122 @@
+plugins {
+    id 'java'
+    id "io.freefair.lombok" version "8.3"
+    id 'application'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "io.freefair.aspectj.post-compile-weaving" version "8.10.2"
+    id 'war'
+}
+
+group 'me.oldboy.market'
+version '2.0'
+
+apply from: 'version.gradle'
+
+application {
+    mainClass = 'me.oldboy.market.MainApp'
+    applicationDefaultJvmArgs = ['-Dfile.encoding=UTF-8']
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+dependencies {
+    /* ----- Рабочий раздел ----- */
+
+    /* Подключаем "встроенный" TomCat и его пус JDBC соединений */
+    implementation "org.apache.tomcat.embed:tomcat-embed-core:${versions.tomcat}"
+    implementation "org.apache.tomcat.embed:tomcat-embed-jasper:${versions.tomcat}"
+    implementation "org.apache.tomcat.embed:tomcat-embed-websocket:${versions.tomcat}"
+    implementation "org.apache.tomcat:tomcat-jdbc:${versions.tomcat}"
+
+    /* Подключим сервлеты */
+    implementation "jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:${versions.jakarta_jsp_jstl_api}"
+    compileOnly "jakarta.servlet:jakarta.servlet-api:${versions.jakarta_servlet_api}"
+    compileOnly "jakarta.servlet.jsp:jakarta.servlet.jsp-api:${versions.jakarta_jsp_api}"
+
+    /* БД и Миграционный фреймворк */
+    implementation "org.postgresql:postgresql:${versions.postgres}"
+    implementation "org.liquibase:liquibase-core:${versions.liquibase}"
+
+    /* Подключим валидатор */
+    implementation "org.hibernate:hibernate-validator:${versions.validator}"
+    implementation "javax.el:javax.el-api:${versions.javax}"
+    implementation "org.glassfish:javax.el:${versions.javax}"
+
+    /* Подключим log4j */
+    implementation "org.slf4j:slf4j-log4j12:${versions.slf4j_log4j_binding}"
+
+    /* Подключим библиотеку Mapstruct */
+    implementation "org.projectlombok:lombok-mapstruct-binding:${versions.lombok_map_struct}"
+    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+    implementation "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}",
+            "org.projectlombok:lombok-mapstruct-binding:${versions.lombok_map_struct}"
+
+    /* Подключим JSON Web Token (JWT) */
+    implementation "io.jsonwebtoken:jjwt-root:${versions.jjwt}"
+    implementation "io.jsonwebtoken:jjwt-api:${versions.jjwt}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${versions.jjwt}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${versions.jjwt}"
+
+    /* Подключим функционал Jackson ObjectMapper */
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versions.jackson}"
+
+    /* Подключим функционал AOP */
+    implementation "org.aspectj:aspectjweaver:${versions.aspectj}"
+    implementation "org.aspectj:aspectjrt:${versions.aspectj}"
+    implementation "org.aspectj:aspectjtools:${versions.aspectj}"
+
+    /* ----- Тестовый раздел ----- */
+
+    /* Тест-контейнер для интеграционных тестов */
+    testImplementation "org.testcontainers:postgresql:${versions.testcontainers}"
+    testImplementation "org.testcontainers:junit-jupiter:${versions.testcontainers}"
+
+    /* Тестовый фреймворк Junit */
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${versions.jupiter}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${versions.jupiter}"
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    /* Mockito */
+    testImplementation "org.mockito:mockito-core:${versions.mockito}"
+    testRuntimeOnly "org.mockito:mockito-core:${versions.mockito}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${versions.mockito}"
+
+    /* AssertJ */
+    testImplementation "org.assertj:assertj-core:${versions.assertj}"
+    testRuntimeOnly "org.assertj:assertj-core:${versions.assertj}"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+wrapper {
+    gradleVersion '8.10'
+}
+
+shadowJar {
+    archiveFileName = 'market.jar'
+
+    manifest {
+        attributes 'Main-Class': 'me.oldboy.market.MainApp'
+    }
+}
+
+war {
+    archiveFileName = 'market.war'
+}
