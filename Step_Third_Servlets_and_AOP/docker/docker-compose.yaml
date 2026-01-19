@@ -1,0 +1,34 @@
+name: market_v_three
+services:
+  postgresql:
+    image: postgres:14
+    container_name: ${POSTGRESQL_CONTAINER_NAME}
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER} # Задаем логин к БД (берется из файла .env в корне проекта)
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Задаем пароль к БД (берется из файла .env в корне проекта)
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5436:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data # Если вдруг хотим сохранить данные в папке где запускается compose файл то: ./db-data:/var/lib/postgresql/data
+
+  market_app:
+    image: jcoderpaul/market_app:3.0
+    container_name: WebAppMarket
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRESQL_CONTAINER_NAME: ${POSTGRESQL_CONTAINER_NAME}
+      DB_CONTAINER_PORT: ${DB_CONTAINER_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports: # Пробрасываем порты host (наша локальная машина) - 8080 на docker (контейнер с приложением) - 8081
+      - "8081:8080"
+    depends_on: # Прописываем зависимость от контейнера БД и порядок запуска (сначала БД, затем приложение)
+      postgresql:
+        condition: service_started
+        restart: true
+
+volumes:
+  db-data:
