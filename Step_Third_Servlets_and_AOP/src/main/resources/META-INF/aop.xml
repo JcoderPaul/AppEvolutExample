@@ -1,0 +1,8 @@
+<aspectj>
+    <weaver options="-verbose -showWeaveInfo -Xreweavable">
+        <include within="me.oldboy.market.*"/>
+    </weaver>
+    <aspects>
+        <include within="me.oldboy.market.*"/>
+    </aspects>
+</aspectj>
