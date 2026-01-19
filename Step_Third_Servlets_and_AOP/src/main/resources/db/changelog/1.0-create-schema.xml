@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Create the schema for application entity tables -->
+    <changeSet id="1.0-create-my_market-schema" author="me.oldboy" runAlways="true">
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS my_market;
+            SET search_path TO my_market;
+        </sql>
+        <rollback>
+            <sql>
+                DROP SCHEMA my_market CASCADE;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
