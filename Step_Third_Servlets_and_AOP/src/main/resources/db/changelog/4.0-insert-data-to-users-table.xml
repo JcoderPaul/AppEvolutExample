@@ -1,0 +1,38 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Insert users data -->
+    <changeSet id="4.0" author="me.oldboy">
+        <insert tableName="users" schemaName="my_market">
+            <column name="email" value="admin@admin.ru"/>
+            <column name="user_pass" value="1234"/>
+            <column name="role" value="ADMIN"/>
+        </insert>
+
+        <insert tableName="users" schemaName="my_market">
+            <column name="email" value="user@user.ru"/>
+            <column name="user_pass" value="4321"/>
+            <column name="role" value="USER"/>
+        </insert>
+
+        <insert tableName="users" schemaName="my_market">
+            <column name="email" value="manager@manager.ru"/>
+            <column name="user_pass" value="1111"/>
+            <column name="role" value="MANAGER"/>
+        </insert>
+
+        <!-- Reset sequence to avoid ID conflicts -->
+        <alterSequence sequenceName="users_user_id_seq"
+                       schemaName="my_market"
+                       incrementBy="1"
+                       minValue="1"
+                       cycle="false"/>
+
+        <rollback>
+            <delete tableName="users" schemaName="my_market"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
