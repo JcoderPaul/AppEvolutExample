@@ -1,0 +1,30 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Insert categories -->
+    <changeSet id="8.0" author="me.oldboy">
+        <comment>Initial data insert for categories table</comment>
+        <insert tableName="categories" schemaName="my_market">
+            <column name="category_name" value="Обувь"/>
+        </insert>
+        <insert tableName="categories" schemaName="my_market">
+            <column name="category_name" value="Куртки"/>
+        </insert>
+        <insert tableName="categories" schemaName="my_market">
+            <column name="category_name" value="Снаряжение"/>
+        </insert>
+
+        <alterSequence sequenceName="categories_category_id_seq"
+                       schemaName="my_market"
+                       incrementBy="1"
+                       minValue="1"
+                       cycle="false"/>
+
+        <rollback>
+            <delete tableName="categories" schemaName="my_market"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
