@@ -1,0 +1,43 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- Insert audit records -->
+    <changeSet id="12.0" author="me.oldboy">
+        <comment>Initial data insert for audits table</comment>
+        <insert tableName="audits" schemaName="my_market">
+            <column name="created_at" valueDate="2024-11-17T16:28:29"/>
+            <column name="created_by" value="admin@admin.ru"/>
+            <column name="action" value="LOGIN"/>
+            <column name="is_success" value="SUCCESS"/>
+            <column name="auditable_record" value=""/> </insert>
+
+        <insert tableName="audits" schemaName="my_market">
+            <column name="created_at" valueDate="2024-11-17T17:18:29"/>
+            <column name="created_by" value="admin@admin.ru"/>
+            <column name="action" value="LOGOUT"/>
+            <column name="is_success" value="SUCCESS"/>
+            <column name="auditable_record" value=""/>
+        </insert>
+
+        <insert tableName="audits" schemaName="my_market">
+            <column name="created_at" valueDate="2024-12-17T16:28:29"/>
+            <column name="created_by" value="user@user.ru"/>
+            <column name="action" value="LOGIN"/>
+            <column name="is_success" value="SUCCESS"/>
+            <column name="auditable_record" value=""/>
+        </insert>
+
+        <alterSequence sequenceName="audits_id_seq"
+                       schemaName="my_market"
+                       incrementBy="1"
+                       minValue="1"
+                       cycle="false"/>
+
+        <rollback>
+            <delete tableName="audits" schemaName="my_market"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
