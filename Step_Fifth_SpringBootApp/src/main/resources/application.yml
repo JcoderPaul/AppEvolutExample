@@ -1,0 +1,49 @@
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        context: DEBUG
+        jdbc:
+          core: TRACE
+        security:
+          web:
+            FilterChainProxy: DEBUG
+            access: DEBUG
+          oauth2:
+            server:
+              resource: DEBUG
+  file.name: Logs/oldboy.log
+
+spring:
+  mvc:
+    format:
+      date: iso
+  datasource:
+    url: jdbc:postgresql://localhost:5435/market_db?characterEncoding=UTF-8
+    username: admin1234
+    password: admin1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties.hibernate:
+      batch_size: 50
+      fetch_size: 50
+      show_sql: true
+      format_sql: true
+      hbm2ddl.auto: validate
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change_log: classpath:db/changelog/db.changelog-master.xml
+    default_schema: my_market
+    liquibase-schema: liquibase_schema
+
+security:
+  jwt:
+    secret: hjf203cupnacs2039r1mjkc1ascdjkfkds9sdnfasb8ica1tugarinZmeyLar00
+    life-time: 24
+
+market:
+  time:
+    logger:
+      enabled: true
