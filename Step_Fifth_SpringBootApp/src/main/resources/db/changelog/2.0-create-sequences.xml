@@ -1,0 +1,23 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="2.0" author="me.oldboy">
+        <!-- Накат "прямо" -->
+        <createSequence sequenceName="users_user_id_seq" schemaName="my_market" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="brands_brand_id_seq" schemaName="my_market" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="categories_category_id_seq" schemaName="my_market" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="audits_id_seq" schemaName="my_market" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="products_id_seq" schemaName="my_market" startValue="1" incrementBy="1"/>
+        <!-- Откат "строго наоборот" -->
+        <rollback>
+            <dropSequence sequenceName="products_id_seq" schemaName="my_market"/>
+            <dropSequence sequenceName="audits_id_seq" schemaName="my_market"/>
+            <dropSequence sequenceName="categories_category_id_seq" schemaName="my_market"/>
+            <dropSequence sequenceName="brands_brand_id_seq" schemaName="my_market"/>
+            <dropSequence sequenceName="users_user_id_seq" schemaName="my_market"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
