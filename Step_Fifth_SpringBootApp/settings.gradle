@@ -1,0 +1,6 @@
+rootProject.name = 'Step_Fifth_SpringBootApp'
+include 'oldboy-market-logger-starter'
+include 'oldboy-market-auditor-starter'
+include 'oldboy-market-usermanager'
+include 'oldboy-market-productmanager'
+
