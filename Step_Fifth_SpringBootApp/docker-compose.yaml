@@ -1,0 +1,17 @@
+name: market_step_two
+services:
+  postgresql:
+    image: postgres:14
+    container_name: market_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: market_db
+    ports:
+      - "5435:5432"
+    volumes:
+      - market_db_data:/var/lib/postgresql/data
+
+volumes:
+  market_db_data:
